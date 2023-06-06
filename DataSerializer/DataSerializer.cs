@@ -87,7 +87,7 @@ namespace ToolBox.Serialization
 
 			_serializationContext = new SerializationContext { StringReferenceResolver = _container };
 			_deserializationContext = new DeserializationContext { StringReferenceResolver = _container };
-			
+
 			GeneratePath();
 			LoadFile();
 		}
@@ -101,12 +101,20 @@ namespace ToolBox.Serialization
 			observer.OnQuit += SaveFile;
 		}
 
+		public static void RequestSaveFile() {
+			SaveFile();
+		}
+
 		private static void SaveFile()
 		{
 			FileSaving?.Invoke();
 
 			var bytes = Serialize(_data);
 			File.WriteAllBytes(_savePath, bytes);
+		}
+
+		public static void RequestLoadFile() {
+			LoadFile();
 		}
 
 		private static void LoadFile()
