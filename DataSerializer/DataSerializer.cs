@@ -101,7 +101,8 @@ namespace ToolBox.Serialization
 			observer.OnQuit += SaveFile;
 		}
 
-		public static void RequestSaveFile() {
+		public static void RequestSaveFile()
+		{
 			SaveFile();
 		}
 
@@ -113,7 +114,8 @@ namespace ToolBox.Serialization
 			File.WriteAllBytes(_savePath, bytes);
 		}
 
-		public static void RequestLoadFile() {
+		public static void RequestLoadFile()
+		{
 			LoadFile();
 		}
 
@@ -148,6 +150,12 @@ namespace ToolBox.Serialization
 			_deserializationContext.StringReferenceResolver = _container;
 
 			return data;
+		}
+
+		public static bool HasSaveFile()
+		{
+			GeneratePath();
+			return File.Exists(_savePath);
 		}
 	}
 }
