@@ -13,8 +13,13 @@ namespace ToolBox.Serialization.Editor
 		private static void ShowWindow() =>
 			GetWindow<AssetsContainerEditor>("Assets Container").Show();
 
-		private void OnEnable() =>
+		private void OnEnable() {
+			if (!HasAssetContainer()) {
+				GenerateAssetContainer();
+			}
+
 			_provider = Resources.Load<AssetsContainer>("ToolBoxAssetsContainer");
+		}
 
 		private void OnGUI()
 		{
@@ -23,6 +28,7 @@ namespace ToolBox.Serialization.Editor
 			var objectsProperty = obj.FindProperty("_savedAssets");
 			var pathsProperty = obj.FindProperty("_paths");
 
+			DrawTop();
 			DrawPaths(pathsProperty);
 			DrawButtons();
 			DrawAssets(objectsProperty);
@@ -93,6 +99,39 @@ namespace ToolBox.Serialization.Editor
 			GUI.enabled = true;
 
 			EditorGUILayout.EndScrollView();
+		}
+
+		private void DrawTop() {
+			EditorGUILayout.BeginHorizontal();
+
+			if (GUILayout.Button("Generate assets container")) {
+				GenerateAssetContainer();
+			}
+				// _provider.LoadAssets();
+
+			EditorGUILayout.EndHorizontal();
+			GUILayout.Space(15f);
+		}
+
+		private void GenerateAssetContainer() {
+
+			AssetsContainer container = ScriptableObject.CreateInstance<AssetsContainer>();
+
+			if (!Directory.Exists("Assets/Resources"))
+			{
+				AssetDatabase.CreateFolder("Assets", "Resources");
+			}
+
+			string path = "Assets/Resources/ToolBoxAssetsContainer.asset";
+			AssetDatabase.CreateAsset(example, path);
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+			EditorUtility.FocusProjectWindow();
+			Selection.activeObject = container;
+		}
+
+		private bool HasAssetContainer() {
+			return File.Exists("Assets/Resources/ToolBoxAssetsContainer.asset");
 		}
 	}
 }
