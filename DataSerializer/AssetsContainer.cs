@@ -19,9 +19,9 @@ namespace ToolBox.Serialization
 		{
 			id = null;
 
-			if (!(value is Object obj) || !TryGetValue(obj, out var entry)) 
+			if (!(value is Object obj) || !TryGetValue(obj, out var entry))
 				return false;
-			
+
 			id = entry.Guid;
 			return true;
 		}
@@ -92,7 +92,7 @@ namespace ToolBox.Serialization
 			ArrayUtility.AddRange(ref _savedAssets, newEntries.ToArray());
 			EditorUtility.SetDirty(this);
 		}
-		
+
 		public void Clear()
 		{
 			_savedAssets = new AssetEntry[0];
