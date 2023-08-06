@@ -124,7 +124,7 @@ namespace ToolBox.Serialization.Editor
 			}
 
 			string path = "Assets/Resources/ToolBoxAssetsContainer.asset";
-			AssetDatabase.CreateAsset(example, path);
+			AssetDatabase.CreateAsset(container, path);
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
 			EditorUtility.FocusProjectWindow();
