@@ -157,6 +157,11 @@ namespace ToolBox.Serialization
 			GeneratePath();
 			return File.Exists(_savePath);
 		}
+
+		public static bool HasSaveData()
+		{
+			return _data.Keys.Count > 0;
+		}
 	}
 }
 
